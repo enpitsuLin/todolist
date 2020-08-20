@@ -1,6 +1,7 @@
 const path = require('path')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
     mode: 'development',
@@ -11,19 +12,26 @@ module.exports = {
     },
     module: {
         rules: [{
-            test: /\.vue$/,
-            loader: 'vue-loader'
-        },
-        {
-            test: /\.(jpeg|jpg|png|svg)$/,
-            loader: 'file-loader',
-            options: {
-                name: '[name].[ext]'
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
+            {
+                test: /\.(jpeg|jpg|png|svg)$/,
+                loader: 'url-loader',
+                options: {
+                    name: '[name].[ext]',
+                    limit: 2048
+                }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
             }
-        }]
+        ]
     },
     plugins: [
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new HtmlWebpackPlugin()
     ],
     resolve: {
         alias: {
