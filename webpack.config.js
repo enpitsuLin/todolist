@@ -10,7 +10,8 @@ module.exports = {
     mode: 'development',
     devServer: {
         contentBase: './dist',
-        open: true
+        open: true,
+        port: 2333
     },
     entry: './src/main.js',
     output: {
