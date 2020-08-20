@@ -1,4 +1,6 @@
-# 安装
+# TodoList 待办事项
+
+## 安装
 
 ```shell
 git clone git@gitee.com:enpitsulin/vue-todo.git
@@ -9,3 +11,27 @@ npm run start
 # 构建
 npm run build
 ```
+
+## 组件
+
+为了方便复用，自己写几个小组件
+
+### todoListItem
+
+>todo列表中的一条条事件  
+>对已完成和待完成的渲染颜色不一
+
+## 数据格式
+
+某些对象在数据库中的格式
+
+### todo item
+
+类型使用JavaScript的类型标注
+
+|字段名|描述|not null|类型|
+|--|--|--|--|
+|title|方便记忆的标题|√|string|
+|remark|额外的备注|×|string|
+|deadline|截止日期|×|datetime|
+|completed|事件的完成状态 true：完成 false：未完成|√|boolean|

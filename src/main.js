@@ -1,12 +1,8 @@
 import Vue from 'vue';
 import App from './App.vue'
 
-new Vue({
-    el: '#app',
-    components: {
-        //name : component
-        App
-    },
-    template: '<App/>'
-})
+Vue.config.productionTip = false
 
+new Vue({
+    render: h => h(App),
+}).$mount('#app')
