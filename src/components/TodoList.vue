@@ -1,30 +1,29 @@
 <template>
   <v-container fluid class="fill-height">
-    <v-expansion-panels>
-      <v-expansion-panel>
-        <v-expansion-panel-header>
-          <template v-slot:default="{ open }">
-            <v-row no-gutters>
-              <v-col cols="4">Item Name</v-col>
-              <v-col cols="8" class="text--secondary">
-                <v-fade-transition leave-absolute>
-                  <span v-if="open" key="0">详情描述巴拉巴拉巴拉</span>
-                  <v-row v-else no-gutters style="width: 100%">
-                    <v-col cols="12">简单描述</v-col>
-                  </v-row>
-                </v-fade-transition>
-              </v-col>
-            </v-row>
-          </template>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <v-img :src="require('../images/pic.jpg')" height="125" class="grey darken-4"></v-img>
-          <v-row justify="space-around" no-gutters>
-            <v-col cols="10"></v-col>
-          </v-row>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
+    <v-row no-gutters>
+      <v-col>
+        <v-card>
+          <v-card-actions>
+            <v-col cols="2" class="checkbox">
+              <v-checkbox hide-details></v-checkbox>
+            </v-col>Top western road trips
+            <v-spacer></v-spacer>
+
+            <v-btn icon @click="show = !show">
+              <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            </v-btn>
+          </v-card-actions>
+          <v-expand-transition>
+            <div v-show="show">
+              <v-divider></v-divider>
+
+              <v-card-text>I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.</v-card-text>
+            </div>
+          </v-expand-transition>
+        </v-card>
+      </v-col>
+    </v-row>
+
     <v-row no-gutters>
       <v-col cols="8" offset="2" offset-xs="0" align="center">
         <v-pagination v-model="page" :length="5"></v-pagination>
@@ -38,10 +37,15 @@ export default {
   data() {
     return {
       page: 1,
+      show: false,
     };
   },
 };
 </script>
 
-<style>
+<style >
+.checkbox .v-input--selection-controls {
+  margin-top: 0;
+  padding-top: 0;
+}
 </style>
