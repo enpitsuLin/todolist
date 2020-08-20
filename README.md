@@ -12,14 +12,6 @@ npm run start
 npm run build
 ```
 
-## 组件
-
-为了方便复用，自己写几个小组件
-
-### todoListItem
-
->todo列表中的一条条事件  
->对已完成和待完成的渲染颜色不一
 
 ## 数据格式
 
