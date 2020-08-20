@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import img from "./assets/images/a.jpg";
 import "./assets/styles/test.css";
 
 export default {

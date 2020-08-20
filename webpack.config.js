@@ -2,6 +2,8 @@ const path = require('path')
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+
 
 module.exports = {
     mode: 'development',
@@ -31,7 +33,10 @@ module.exports = {
     },
     plugins: [
         new VueLoaderPlugin(),
-        new HtmlWebpackPlugin()
+        new HtmlWebpackPlugin({
+            template: './index.html'
+        }),
+        new CleanWebpackPlugin()
     ],
     resolve: {
         alias: {
