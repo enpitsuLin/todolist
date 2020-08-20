@@ -3,37 +3,116 @@
     <header>
       <section>
         <label for="title">Todo List</label>
-        <input type="text" placeholder="添加事件" />
+        <input type="text" v-model="todo" @keyup.enter="add_item" placeholder="添加事件" />
       </section>
     </header>
     <section>
-      <h2>正在进行</h2>
+      <h2>
+        正在进行
+        <span>{{todoLen}}</span>
+      </h2>
       <ol>
-        <li draggable>
-          <input type="checkbox" />
-          <p>找1111</p>
-          <a>-</a>
+        <li v-for="(item,i) in undoneItem" :key="i">
+          <input type="checkbox" @change="change_item(item,true)" />
+          <p>{{item.title}}</p>
+          <a @click="delete_item(item,true)">-</a>
         </li>
       </ol>
+      <h2>
+        已经完成
+        <span>{{todoList.length - todoLen}}</span>
+      </h2>
+      <ul>
+        <li v-for="(item, i) in doneItem " draggable :key="i">
+          <input type="checkbox" @change="change_item(item,false)" checked="checked" />
+          <p>{{item.title}}</p>
+          <a @click="delete_item(item,false)">-</a>
+        </li>
+      </ul>
     </section>
+    <footer>
+      Copyright &copy; 2020
+      <a>clear</a>
+    </footer>
   </div>
 </template>
 
 <script>
 import "./assets/styles/style.css";
+import * as Utils from "./utils/utils";
 
 export default {
   name: "App",
   data() {
     return {
-      todoData: ["todo1", "todo2", "todo3", "todo4"],
+      todo: "",
+      todoList: [],
+      todoLen: 0,
     };
+  },
+  methods: {
+    init_todo_list() {
+      var todoListData = Utils.getItem("todoList");
+      if (todoListData) {
+        for (let i = 0, len = todoListData.length; i < len; i++) {
+          if (todoListData[i].done === false) this.todoLen++;
+        }
+        this.todoList = todoListData;
+      }
+    },
+    add_item() {
+      if (this.todo == "") return;
+      let item = {
+        title: this.todo,
+        done: false,
+      };
+
+      var tempList = Utils.getItem("todoList");
+      if (tempList) {
+        tempList.push(item);
+        Utils.setItem("todoList", tempList);
+      } else {
+        var tempList = [];
+        tempList.push(item);
+        Utils.setItem("todoList", tempList);
+      }
+      this.todoList.push(item);
+      this.todoLen++;
+      this.todo = "";
+    },
+    change_item(item, state) {
+      console.log(item, this.todoList.indexOf(item));
+      var index = this.todoList.indexOf(item);
+      if (index == -1) return;
+      this.todoList[index].done = state;
+      this.todoLen += state ? -1 : 1;
+      Utils.setItem("todoList", this.todoList);
+    },
+    delete_item(item, state) {
+      var index = this.todoList.indexOf(item);
+      if (index == -1) return;
+      if (state) this.todoLen--;
+      this.todoList.splice(index, 1);
+      Utils.setItem("todoList", this.todoList);
+    },
+  },
+  computed: {
+    doneItem() {
+      return this.todoList.filter(function (item) {
+        return item.done;
+      });
+    },
+    undoneItem() {
+      return this.todoList.filter(function (item) {
+        return item.done == false;
+      });
+    },
+  },
+  mounted() {
+    this.init_todo_list();
   },
 };
 </script>
 
 <style>
-li:nth-of-type(odd) {
-  color: blue;
-}
 </style>
