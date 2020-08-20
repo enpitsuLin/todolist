@@ -1,5 +1,6 @@
 const path = require('path')
 
+
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
@@ -7,6 +8,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
     mode: 'development',
+    devServer: {
+        contentBase: './dist',
+        open: true
+    },
     entry: './src/main.js',
     output: {
         filename: 'bundle.js',

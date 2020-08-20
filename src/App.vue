@@ -1,5 +1,5 @@
 <template>
-  <div>this is App</div>
+  <div>Todo</div>
 </template>
 
 <script>
