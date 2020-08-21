@@ -82,6 +82,7 @@ export default {
     search,
     todolist,
   },
+  methods: {},
 };
 </script>
 <style lang="scss">

@@ -2,22 +2,37 @@
   <v-container fluid class="fill-height">
     <v-row no-gutters>
       <v-col>
-        <v-card>
-          <v-card-actions>
-            <v-col cols="2" class="checkbox">
-              <v-checkbox hide-details></v-checkbox>
-            </v-col>Top western road trips
-            <v-spacer></v-spacer>
+        <v-card v-for="(item,i) in itemList" :key="i">
+          <v-card-actions @mouseenter="handleEnter(item)" @mouseleave="handleLeave(item)">
+            <v-col cols="1" class="checkbox">
+              <v-checkbox hide-details v-model="item.completed"></v-checkbox>
+            </v-col>
 
-            <v-btn icon @click="show = !show">
-              <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            <div :class="{'text-decoration-line-through completed':item.completed}">{{item.title}}</div>
+            <v-spacer></v-spacer>
+            <v-btn icon @click="item.show = !item.show">
+              <v-icon>{{ item.show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
             </v-btn>
           </v-card-actions>
           <v-expand-transition>
-            <div v-show="show">
+            <div v-show="item.show">
               <v-divider></v-divider>
+              <v-col cols="10" offset="1" offset-sm="0">
+                <v-card-text>{{item.remark}}</v-card-text>
+              </v-col>
 
-              <v-card-text>I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.</v-card-text>
+              <v-row>
+                <v-col cols="1" align-self="end">
+                  <v-btn @click="item.editing=true">
+                    <v-icon>mdi-pencil</v-icon>修改
+                  </v-btn>
+                </v-col>
+                <v-col cols="1">
+                  <v-btn dark color="red">
+                    <v-icon>mdi-delete</v-icon>删除
+                  </v-btn>
+                </v-col>
+              </v-row>
             </div>
           </v-expand-transition>
         </v-card>
@@ -36,9 +51,38 @@
 export default {
   data() {
     return {
+      itemList: [
+        {
+          title: "代办标题1",
+          hover: false,
+          show: false,
+          remark:
+            "这里是一段待办事项内容1，作为记录，其余的都是废话，想看就看不想看就算了。",
+          showdelete: false,
+          completed: false,
+        },
+        {
+          title: "代办标题2",
+          hover: false,
+          show: false,
+          remark:
+            "这里是一段待办事项内容2，作为记录，其余的都是废话，想看就看不想看就算了。",
+          showdelete: false,
+          completed: true,
+        },
+      ],
       page: 1,
-      show: false,
     };
+  },
+  methods: {
+    handleEnter(item) {
+      var index = this.itemList.indexOf(item);
+      this.itemList[index].hover = true;
+    },
+    handleLeave(item) {
+      var index = this.itemList.indexOf(item);
+      this.itemList[index].hover = false;
+    },
   },
 };
 </script>
@@ -47,5 +91,8 @@ export default {
 .checkbox .v-input--selection-controls {
   margin-top: 0;
   padding-top: 0;
+}
+.text-decoration-line-through.completed {
+  color: rgba(0, 0, 0, 0.4);
 }
 </style>
