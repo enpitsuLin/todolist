@@ -15,12 +15,11 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-
+      <!-- bar item -->
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn text v-on="on" color="grey">
-            <v-icon left>mdi-chevron-down</v-icon>
-            <span>菜单</span>
+            <v-icon left>mdi-chevron-down</v-icon>菜单
           </v-btn>
         </template>
         <v-list-item v-for="link in links" :key="link.text" :to="link.route">
@@ -34,14 +33,21 @@
       </v-btn>
     </v-app-bar>
 
-    <v-navigation-drawer app class="teal lighten-1" v-model="drawer">
+    <v-navigation-drawer app color="secondary" width="300" v-model="drawer">
       <template v-slot:prepend>
-        <div class="pa-6">
-          <newproject />
-        </div>
+        <v-col align="center" class="pt-12">
+          <v-avatar size="100">
+            <img src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg" />
+          </v-avatar>
+          <p class="white--text subheading mt-1">UserName</p>
+        </v-col>
+
+        <v-col class="px-12">
+          <newproject @itemAdded="snackbar = true" />
+        </v-col>
       </template>
       <v-divider></v-divider>
-      <v-list>
+      <v-list dense>
         <v-list-item v-for="(link, index) in links" :key="index" :to="link.route">
           <v-list-item-icon>
             <v-icon class="white--text">{{ link.icon }}</v-icon>
@@ -66,6 +72,7 @@ export default {
         { icon: "mdi-view-dashboard", text: "代办事项", route: "/" },
         { icon: "mdi-folder", text: "项目", route: "/projects" },
         //{ icon: "mdi-person", text: "小组", route: "/team" },
+        { icon: "mdi-information", text: "关于", route: "/about" },
       ],
       snackbar: false,
     };
