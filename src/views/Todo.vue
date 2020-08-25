@@ -40,10 +40,7 @@
           </v-col>
           <v-col cols="6">
             <div class="text-caption grey--text">详情</div>
-            <div
-              class="d-inline-block text-truncate"
-              style="max-width: 300px;"
-            >{{ item.content }}</div>
+            <div class="d-inline-block text-truncate" style="max-width: 300px;">{{ item.content }}</div>
           </v-col>
           <v-col cols="2">
             <div class="text-caption grey--text">截止日期</div>
@@ -83,6 +80,7 @@
 
 <script>
 import * as Utils from "../utils/utils";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -100,6 +98,15 @@ export default {
     },
     sortBy(prop) {
       this.todoList.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
+    },
+  },
+  computed: {
+    ...mapGetters(["getTodoList"]),
+  },
+  watch: {
+    getTodoList: function (li) {
+      let vm = this;
+      this.todoList = li;
     },
   },
   mounted() {

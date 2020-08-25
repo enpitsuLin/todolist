@@ -133,6 +133,7 @@ export default {
         tempList.push(item);
         Utils.setItem("todoList", tempList);
       }
+      this.$store.commit('ADD_ITEM',item);
     },
     remove(item) {
       this.tags.splice(this.tags.indexOf(item), 1);
