@@ -2,8 +2,8 @@
   <v-app id="inspire">
     <navbar />
     <!-- 中间区域 -->
-    <v-main class="grey lighten-4">
-      <!--  <todolist /> -->
+    <v-main class="grey lighten-4 mx-4 mb-4">
+      <router-view></router-view>
     </v-main>
     <!-- 浮动按钮 -->
     <v-speed-dial v-model="fab" bottom right direction="top" absolute>
@@ -23,10 +23,6 @@
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-speed-dial>
-    <!-- 搜索弹出窗口 -->
-    <v-dialog v-model="search" fullscreen hide-overlay transition="scroll-y-transition">
-      <search @closeSearch="search=false" />
-    </v-dialog>
   </v-app>
 </template>
 
