@@ -36,10 +36,12 @@
     <v-navigation-drawer app color="secondary" width="300" v-model="drawer">
       <template v-slot:prepend>
         <v-col align="center" class="pt-12">
-          <v-avatar size="100">
-            <img src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg" />
+          <v-avatar color="white" size="100">
+            <img
+              src="https://portrait.gitee.com/uploads/avatars/user/2457/7373113_enpitsulin_1585288174.png"
+            />
           </v-avatar>
-          <p class="white--text subheading mt-1">UserName</p>
+          <p class="white--text subheading mt-1">enpitsulin</p>
         </v-col>
 
         <v-col class="px-12">
