@@ -8,7 +8,10 @@
               <v-checkbox hide-details v-model="item.completed"></v-checkbox>
             </v-col>
 
-            <div :class="{'text-decoration-line-through completed':item.completed}">{{item.title}}</div>
+            <v-col
+              cols="10"
+              :class="{'text-decoration-line-through completed':item.completed}"
+            >{{item.title}}</v-col>
             <v-spacer></v-spacer>
             <v-btn icon @click="item.show = !item.show">
               <v-icon>{{ item.show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
@@ -63,6 +66,33 @@ export default {
         },
         {
           title: "代办标题2",
+          hover: false,
+          show: false,
+          remark:
+            "这里是一段待办事项内容2，作为记录，其余的都是废话，想看就看不想看就算了。",
+          showdelete: false,
+          completed: true,
+        },
+        {
+          title: "代办标题3长长长长长长长长长长长长长长",
+          hover: false,
+          show: false,
+          remark:
+            "这里是一段待办事项内容3，作为记录，其余的都是废话，想看就看不想看就算了。",
+          showdelete: false,
+          completed: true,
+        },
+        {
+          title: "代办标题4",
+          hover: false,
+          show: false,
+          remark:
+            "这里是一段待办事项内容2，作为记录，其余的都是废话，想看就看不想看就算了。",
+          showdelete: false,
+          completed: true,
+        },
+        {
+          title: "代办标题5",
           hover: false,
           show: false,
           remark:
