@@ -1,12 +1,5 @@
 <template>
   <nav>
-    <v-snackbar v-model="snackbar" :timeout="4000" top color="success">
-      <span>漂亮！你成功添加了一个新项目</span>
-      <template v-slot:action="{ attrs }">
-        <v-btn dark text v-bind="attrs" @click="snackbar = false">关闭</v-btn>
-      </template>
-    </v-snackbar>
-
     <v-app-bar flat app class="text-uppercase grey--text">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="grey--text"></v-app-bar-nav-icon>
 
@@ -43,10 +36,6 @@
           </v-avatar>
           <p class="white--text subheading mt-1">enpitsulin</p>
         </v-col>
-
-        <v-col class="px-12">
-          <newproject @itemAdded="snackbar = true" />
-        </v-col>
       </template>
       <v-divider></v-divider>
       <v-list dense>
@@ -64,9 +53,8 @@
 </template>
 
 <script>
-import newproject from "./NewProject.vue";
 export default {
-  components: { newproject },
+  components: {},
   data() {
     return {
       drawer: true,
@@ -76,7 +64,6 @@ export default {
         //{ icon: "mdi-person", text: "小组", route: "/team" },
         { icon: "mdi-information", text: "关于", route: "/about" },
       ],
-      snackbar: false,
     };
   },
 };

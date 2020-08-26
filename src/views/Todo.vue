@@ -1,12 +1,27 @@
 <template>
   <div class="todo">
+    <!-- 提示 -->
+    <v-snackbar v-model="itemAdded" :timeout="2000" top color="success">
+      <span>漂亮！你成功添加了一个新项目</span>
+      <template v-slot:action="{ attrs }">
+        <v-btn dark text v-bind="attrs" @click="itemAdded = false">关闭</v-btn>
+      </template>
+    </v-snackbar>
+    <v-snackbar v-model="itemRemoved" :timeout="4000" top color="red">
+      <span>你删除了一个项目</span>
+      <template v-slot:action="{ attrs }">
+        <v-btn dark text v-bind="attrs" @click="itemRemoved = false;recovery_item">撤销</v-btn>
+        <v-btn dark text v-bind="attrs" @click="itemRemoved = false">关闭</v-btn>
+      </template>
+    </v-snackbar>
+    <!-- 主体 -->
     <h1 class="text-subtitle-1 grey--text">Todolist</h1>
     <v-container class="my-10 pa-6">
       <!-- 排序 -->
       <v-row class="mb-4 mx-2">
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn small text color="grey" @click="sortBy('title')" v-bind="attrs" v-on="on">
+            <v-btn small text color="grey" @click="sort_by('title')" v-bind="attrs" v-on="on">
               <v-icon left small>mdi-folder</v-icon>全部
             </v-btn>
           </template>
@@ -15,7 +30,7 @@
 
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn small text color="grey" @click="sortBy('title')" v-bind="attrs" v-on="on">
+            <v-btn small text color="grey" @click="sort_by('title')" v-bind="attrs" v-on="on">
               <v-icon left small>mdi-check-all</v-icon>已完成
             </v-btn>
           </template>
@@ -24,7 +39,7 @@
 
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn small text color="grey" @click="sortBy('person')" v-bind="attrs" v-on="on">
+            <v-btn small text color="grey" @click="sort_by('person')" v-bind="attrs" v-on="on">
               <v-icon left small>mdi-close</v-icon>未完成
             </v-btn>
           </template>
@@ -32,62 +47,104 @@
         </v-tooltip>
       </v-row>
       <!-- 数据 -->
-      <v-card flat v-for="item in todoList" :key="item.title">
-        <v-row no-gutters wrap :class="`${item.status} pa-3 item`">
-          <v-col cols="2">
-            <div class="text-caption grey--text">事项名称</div>
-            <div>{{ item.title }}</div>
-          </v-col>
-          <v-col cols="6">
-            <div class="text-caption grey--text">详情</div>
-            <div class="d-inline-block text-truncate" style="max-width: 300px;">{{ item.content }}</div>
-          </v-col>
-          <v-col cols="2">
-            <div class="text-caption grey--text">截止日期</div>
-            <div>{{ item.due }}</div>
-          </v-col>
-          <v-col cols="2">
-            <div class="text-caption grey--text">标签</div>
-            <div>
-              <v-chip x-small v-for="(tag,i) in item.tags" :key="i">{{tag}}</v-chip>
+      <v-hover v-slot:default="{ hover }" v-for="(item,index) in todoList" :key="item.id">
+        <v-card flat>
+          <v-row no-gutters :class="`${item.status} pa-3 item`">
+            <v-col cols="1" sm="3" md="2">
+              <div class="text-caption grey--text">事项名称</div>
+              <div>{{ item.title }}</div>
+            </v-col>
+            <v-col cols="5" class="d-none d-md-block">
+              <div class="text-caption grey--text">详情</div>
+              <div class="d-inline-block text-truncate" style="max-width: 300px;">{{ item.content }}</div>
+            </v-col>
+            <v-col cols="2" sm="3" md="2">
+              <div class="text-caption grey--text">截止日期</div>
+              <div>{{ item.due }}</div>
+            </v-col>
+            <v-col cols="2" sm="4" md="2">
+              <div class="text-caption grey--text">标签</div>
+              <div>
+                <v-chip x-small v-for="(tag,i) in item.tags" :key="i">{{tag}}</v-chip>
+              </div>
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-btn icon @click="expand_handle(index)" v-if="hover" class="mt-1">
+              <v-icon>{{ expand.indexOf(index)!=-1 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            </v-btn>
+          </v-row>
+          <v-divider></v-divider>
+          <v-expand-transition>
+            <div v-show="expand.indexOf(index)!=-1">
+              <v-row no-gutters>
+                <v-col offset="1">
+                  <v-card-text class="pt-2 pb-1 caption">状态:</v-card-text>
+                </v-col>
+                <v-col offset="-1">
+                  <v-chip
+                    small
+                    :class="`${item.status} white--text caption mx-3 mt-1`"
+                  >{{item.status!='complete'? '进行中':'已完成'}}</v-chip>
+                </v-col>
+                <v-spacer></v-spacer>
+                <v-btn-toggle dense borderless class="px-2">
+                  <v-btn
+                    text
+                    v-show="item.status!='complete'"
+                    @click.stop="completeDialog = true;selectItem=item"
+                  >
+                    <v-icon>mdi-check</v-icon>完成
+                  </v-btn>
+                  <v-btn text>
+                    <v-icon>mdi-pencil</v-icon>修改
+                  </v-btn>
+                  <v-btn text color="red" @click.stop="remove_item(item);itemRemoved=true">
+                    <v-icon>mdi-delete</v-icon>删除
+                  </v-btn>
+                </v-btn-toggle>
+              </v-row>
             </div>
-          </v-col>
-        </v-row>
-        <v-divider></v-divider>
-      </v-card>
+          </v-expand-transition>
+        </v-card>
+      </v-hover>
     </v-container>
+    <!-- 对话框(提示完成) -->
+    <v-dialog v-model="completeDialog" max-width="290">
+      <v-card>
+        <v-card-title class="headline">确定完成?</v-card-title>
+        <v-card-text>确定已经完成该事项,将该事项状态更改为已完成?</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="completeDialog = false">取消</v-btn>
+          <v-btn color="green darken-1" text @click="complete_item()">确定</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <!-- 浮动按钮 -->
-    <v-speed-dial v-model="fab" bottom right direction="top" absolute>
-      <template v-slot:activator>
-        <v-btn v-model="fab" color="blue darken-2" dark fab>
-          <v-icon v-if="fab">mdi-check</v-icon>
-          <v-icon v-else>mdi-plus</v-icon>
-        </v-btn>
-      </template>
-      <v-btn fab dark small color="green" @click="dialog = !dialog">
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-      <v-btn fab dark small color="indigo">
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
-      <v-btn fab dark small color="red">
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
-    </v-speed-dial>
+    <ProjectEditor @itemAdded="itemAdded = true" />
   </div>
 </template>
 
 <script>
+import ProjectEditor from "../components/ProjectEditor.vue";
 import * as Utils from "../utils/utils";
 import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
+      itemRemoved: false,
+      itemAdded: false,
+      expand: [],
       todoList: [],
-      fab: false,
+      completeDialog: false,
+      selceteItem: {},
+      recoveryItem: {},
     };
+  },
+  components: {
+    ProjectEditor,
   },
   methods: {
     init_todo_list() {
@@ -96,17 +153,41 @@ export default {
         this.todoList = todoListData;
       }
     },
-    sortBy(prop) {
+    sort_by(prop) {
       this.todoList.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
+    },
+    expand_handle(index) {
+      var si = this.expand.indexOf(index);
+      if (si != -1) {
+        this.expand.splice(si, 1);
+      } else {
+        this.expand.push(index);
+      }
+    },
+    remove_item(item) {
+      this.recoveryItem = item;
+      this.$store.dispatch("removeTodo", item);
+    },
+    complete_item() {
+      const item = this.selectItem;
+      this.$store.dispatch("completedTodo", item);
+      this.completeDialog = false;
+    },
+    recovery_item() {
+      console.log(this.recoveryItem);
+      this.$store.dispatch("addTodo", this.recoveryItem);
     },
   },
   computed: {
     ...mapGetters(["getTodoList"]),
   },
   watch: {
-    getTodoList: function (li) {
-      let vm = this;
-      this.todoList = li;
+    getTodoList: {
+      handler: function (li) {
+        let vm = this;
+        this.todoList = li;
+      },
+      deep: true,
     },
   },
   mounted() {
@@ -127,12 +208,12 @@ export default {
   border-left: 4px solid tomato;
 }
 .v-chip.complete {
-  background: #3cd1c2;
+  background: #3cd1c2 !important;
 }
 .v-chip.ongoing {
-  background: #ffaa2c;
+  background: #ffaa2c !important;
 }
 .v-chip.overdue {
-  background: #f83e70;
+  background: #f83e70 !important;
 }
 </style>
