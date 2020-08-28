@@ -199,8 +199,12 @@ export default {
       handler: function (li) {
         let vm = this;
         this.todoList = li;
+        this.expand = [];
       },
       deep: true,
+    },
+    sortedItemList: function (val) {
+      this.expand = [];
     },
   },
   mounted() {
