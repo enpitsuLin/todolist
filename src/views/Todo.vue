@@ -1,19 +1,7 @@
 <template>
   <div class="todo">
     <!-- 提示 -->
-    <v-snackbar v-model="itemAdded" :timeout="2000" top color="success">
-      <span>漂亮！你成功添加了一个新项目</span>
-      <template v-slot:action="{ attrs }">
-        <v-btn dark text v-bind="attrs" @click="itemAdded = false">关闭</v-btn>
-      </template>
-    </v-snackbar>
-    <v-snackbar v-model="itemRemoved" :timeout="5000" top color="error">
-      <span>你删除了一个项目</span>
-      <template v-slot:action="{ attrs }">
-        <v-btn dark text v-bind="attrs" @click="recovery_item()">撤销</v-btn>
-        <v-btn dark text v-bind="attrs" @click="itemRemoved = false">关闭</v-btn>
-      </template>
-    </v-snackbar>
+    <Snackbar ref="snackbar" @handleUndo="recovery_item()" />
     <!-- 主体 -->
     <h1 class="text-subtitle-1 grey--text">Todolist</h1>
     <v-container class="my-10 pa-6">
@@ -98,7 +86,7 @@
                   <v-btn text @click.stop="edit_item(item)">
                     <v-icon>mdi-pencil</v-icon>修改
                   </v-btn>
-                  <v-btn text color="red" @click.stop="remove_item(item);itemRemoved=true">
+                  <v-btn text color="red" @click.stop="remove_item(item);">
                     <v-icon>mdi-delete</v-icon>删除
                   </v-btn>
                 </v-btn-toggle>
@@ -122,20 +110,23 @@
     </v-dialog>
 
     <!-- 浮动按钮 -->
-    <ProjectEditor @itemAdded="itemAdded = true" @itemModifyed="itemAdded = true" ref="editor" />
+    <ProjectEditor
+      @itemAdded="showSuccess('add')"
+      @itemModifyed="showSuccess('modify')"
+      ref="editor"
+    />
   </div>
 </template>
 
 <script>
-import ProjectEditor from "../components/ProjectEditor.vue";
 import * as Utils from "../utils/utils";
 import { mapGetters } from "vuex";
+import ProjectEditor from "../components/ProjectEditor.vue";
+import Snackbar from "../components/Snackbar.vue";
 
 export default {
   data() {
     return {
-      itemRemoved: false,
-      itemAdded: false,
       expand: [],
       todoList: [],
       completeDialog: false,
@@ -145,6 +136,7 @@ export default {
   },
   components: {
     ProjectEditor,
+    Snackbar,
   },
   methods: {
     init_todo_list() {
@@ -169,6 +161,7 @@ export default {
     },
     remove_item(item) {
       this.recoveryItem = item;
+      this.showDelete(item);
       this.$store.dispatch("removeTodo", item.id);
     },
     complete_item() {
@@ -177,8 +170,16 @@ export default {
       this.completeDialog = false;
     },
     recovery_item() {
-      this.itemRemoved = false;
       this.$store.dispatch("addTodo", this.recoveryItem);
+    },
+    showSuccess(type) {
+      let msg =
+        type === "add" ? "漂亮！你成功添加了一个新项目" : "OK!修改成功!";
+      this.$refs.snackbar.show(msg);
+    },
+    showDelete(item) {
+      let msg = `你删除了项目:${item.title}`;
+      this.$refs.snackbar.showError(msg);
     },
   },
   computed: {
@@ -189,7 +190,6 @@ export default {
       handler: function (li) {
         let vm = this;
         this.todoList = li;
-        console.log("change", li);
       },
       deep: true,
     },

@@ -148,7 +148,7 @@ export default {
         this.dialog = false;
         this.loading = false;
         this.editing = false;
-        this.$emit("itemAdded");
+        this.$emit("itemModifyed");
         this.$refs.form.reset();
       });
     },
