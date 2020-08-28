@@ -31,7 +31,7 @@
         <v-col align="center" class="pt-12">
           <v-avatar color="white" size="100">
             <img
-              src="https://portrait.gitee.com/uploads/avatars/user/2457/7373113_enpitsulin_1585288174.png"
+              src="../assets/images/avatar-1.png"
             />
           </v-avatar>
           <p class="white--text subheading mt-1">enpitsulin</p>

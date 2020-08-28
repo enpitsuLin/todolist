@@ -8,7 +8,7 @@
             <v-responsive class="pt-4">
               <v-avatar size="100" class="grey lighten-2">
                 <img
-                  src="https://portrait.gitee.com/uploads/avatars/user/2457/7373113_enpitsulin_1585288174.png"
+                  src="../assets/images/avatar-1.png"
                 />
               </v-avatar>
             </v-responsive>
