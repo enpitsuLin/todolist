@@ -39,7 +39,7 @@ module.exports = {
                         name: '[name].[ext]',
                         limit: 2048,
                         outputPath: './img',
-                        publicPath: '/img',
+                        publicPath: './img',
                         esModule: false,
                     }
                 }]

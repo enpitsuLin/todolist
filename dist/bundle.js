@@ -469,7 +469,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _nod
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = \"/img/avatar-1.png\";\n\n//# sourceURL=webpack:///./src/assets/images/avatar-1.png?");
+eval("module.exports = \"./img/avatar-1.png\";\n\n//# sourceURL=webpack:///./src/assets/images/avatar-1.png?");
 
 /***/ }),
 
