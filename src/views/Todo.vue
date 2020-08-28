@@ -9,7 +9,7 @@
       <v-row class="mb-4 mx-2">
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn small text color="grey" @click="sort_by('title')" v-bind="attrs" v-on="on">
+            <v-btn small text color="grey" @click="sort_by('')" v-bind="attrs" v-on="on">
               <v-icon left small>mdi-folder</v-icon>全部
             </v-btn>
           </template>
@@ -18,7 +18,7 @@
 
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn small text color="grey" @click="sort_by('title')" v-bind="attrs" v-on="on">
+            <v-btn small text color="grey" @click="sort_by('complete')" v-bind="attrs" v-on="on">
               <v-icon left small>mdi-check-all</v-icon>已完成
             </v-btn>
           </template>
@@ -27,7 +27,7 @@
 
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn small text color="grey" @click="sort_by('person')" v-bind="attrs" v-on="on">
+            <v-btn small text color="grey" @click="sort_by('ongoing')" v-bind="attrs" v-on="on">
               <v-icon left small>mdi-close</v-icon>未完成
             </v-btn>
           </template>
@@ -35,7 +35,7 @@
         </v-tooltip>
       </v-row>
       <!-- 数据 -->
-      <v-hover v-slot:default="{ hover }" v-for="(item,index) in todoList" :key="item.id">
+      <v-hover v-slot:default="{ hover }" v-for="(item,index) in sortedItemList" :key="item.id">
         <v-card flat>
           <v-row no-gutters :class="`${item.status} pa-3 item`">
             <v-col cols="1" sm="3" md="2">
@@ -127,6 +127,7 @@ import Snackbar from "../components/Snackbar.vue";
 export default {
   data() {
     return {
+      filter: "",
       expand: [],
       todoList: [],
       completeDialog: false,
@@ -145,8 +146,8 @@ export default {
         this.todoList = todoListData;
       }
     },
-    sort_by(prop) {
-      this.todoList.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
+    sort_by(filter) {
+      this.filter = filter;
     },
     expand_handle(index) {
       var si = this.expand.indexOf(index);
@@ -184,6 +185,14 @@ export default {
   },
   computed: {
     ...mapGetters(["getTodoList"]),
+    sortedItemList() {
+      return this.todoList.filter((item) => {
+        return (
+          (this.filter != "") & (item.status == this.filter) ||
+          this.filter == ""
+        );
+      });
+    },
   },
   watch: {
     getTodoList: {
