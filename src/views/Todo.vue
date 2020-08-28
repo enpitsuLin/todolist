@@ -38,28 +38,30 @@
       <v-hover v-slot:default="{ hover }" v-for="(item,index) in sortedItemList" :key="item.id">
         <v-card flat>
           <v-row no-gutters :class="`${item.status} pa-3 item`">
-            <v-col cols="1" sm="3" md="2">
+            <v-col cols="3" sm="3" md="2">
               <div class="text-caption grey--text">事项名称</div>
               <div>{{ item.title }}</div>
             </v-col>
-            <v-col cols="5" class="d-none d-md-block">
+            <v-col md="5" class="d-none d-md-block">
               <div class="text-caption grey--text">详情</div>
               <div class="d-inline-block text-truncate" style="max-width: 300px;">{{ item.content }}</div>
             </v-col>
-            <v-col cols="2" sm="3" md="2">
+            <v-col cols="3" sm="3" md="2">
               <div class="text-caption grey--text">截止日期</div>
               <div>{{ item.due }}</div>
             </v-col>
-            <v-col cols="2" sm="4" md="2">
+            <v-col cols="4" sm="4" md="2">
               <div class="text-caption grey--text">标签</div>
               <div>
                 <v-chip x-small v-for="(tag,i) in item.tags" :key="i">{{tag}}</v-chip>
               </div>
             </v-col>
             <v-spacer></v-spacer>
-            <v-btn icon @click="expand_handle(index)" v-if="hover" class="mt-1">
-              <v-icon>{{ expand.indexOf(index)!=-1 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-            </v-btn>
+            <v-col align-self="center">
+              <v-btn icon @click="expand_handle(index)" v-if="hover" class="mt-1">
+                <v-icon>{{ expand.indexOf(index)!=-1 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+              </v-btn>
+            </v-col>
           </v-row>
           <v-divider></v-divider>
           <v-expand-transition>
