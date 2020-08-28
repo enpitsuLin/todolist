@@ -15,14 +15,18 @@ export default new Vuex.Store({
   },
   mutations: {
     ADD_ITEM(state, item) {
-      var length = state.todoList.length;
-      item.id = length + 1;
+      var num = "";
+      for (var i = 0; i < 16; i++) {
+        num += Math.floor(Math.random() * 16).toString(16);
+      }
+      item.id = num.toLowerCase();
       state.todoList.push(item);
       Utils.setItem("todoList", state.todoList);
     },
-    MODFY_ITEM(state, item, mitem) {
+    MODIFY_ITEM(state, item, mitem) {
+      console.log(item, mitem);
       state.todoList.forEach((todo, i) => {
-        if (todo.id == item.id) {
+        if (todo && item && mitem && todo.id === item.id) {
           state.todoList[i] = mitem;
         }
       });
@@ -35,7 +39,7 @@ export default new Vuex.Store({
     },
     COMPLETED_ITEM(state, item) {
       state.todoList.forEach((todo, i) => {
-        if (todo.id == item.id) {
+        if (todo && item && todo.id === item.id) {
           state.todoList[i].status = "complete";
         }
       });
@@ -45,6 +49,7 @@ export default new Vuex.Store({
   actions: {
     addTodo({ commit }, item) { commit('ADD_ITEM', item) },
     removeTodo({ commit }, item) { commit('REMOVE_ITEM', item) },
+    modifyTodo({ commit }, item, mitem) { commit('MODIFY_ITEM', item, mitem) },
     completedTodo({ commit }, item) { commit('COMPLETED_ITEM', item) }
   },
 });

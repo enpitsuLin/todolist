@@ -7,10 +7,10 @@
         <v-btn dark text v-bind="attrs" @click="itemAdded = false">关闭</v-btn>
       </template>
     </v-snackbar>
-    <v-snackbar v-model="itemRemoved" :timeout="4000" top color="red">
+    <v-snackbar v-model="itemRemoved" :timeout="5000" top color="error">
       <span>你删除了一个项目</span>
       <template v-slot:action="{ attrs }">
-        <v-btn dark text v-bind="attrs" @click="itemRemoved = false;recovery_item">撤销</v-btn>
+        <v-btn dark text v-bind="attrs" @click="recovery_item()">撤销</v-btn>
         <v-btn dark text v-bind="attrs" @click="itemRemoved = false">关闭</v-btn>
       </template>
     </v-snackbar>
@@ -95,7 +95,7 @@
                   >
                     <v-icon>mdi-check</v-icon>完成
                   </v-btn>
-                  <v-btn text>
+                  <v-btn text @click.stop="edit_item(item)">
                     <v-icon>mdi-pencil</v-icon>修改
                   </v-btn>
                   <v-btn text color="red" @click.stop="remove_item(item);itemRemoved=true">
@@ -122,7 +122,7 @@
     </v-dialog>
 
     <!-- 浮动按钮 -->
-    <ProjectEditor @itemAdded="itemAdded = true" />
+    <ProjectEditor @itemAdded="itemAdded = true" @itemModifyed="itemAdded = true" ref="editor" />
   </div>
 </template>
 
@@ -139,7 +139,7 @@ export default {
       expand: [],
       todoList: [],
       completeDialog: false,
-      selceteItem: {},
+      selectItem: {},
       recoveryItem: {},
     };
   },
@@ -164,6 +164,10 @@ export default {
         this.expand.push(index);
       }
     },
+    edit_item(item) {
+      this.$refs.editor.item = JSON.stringify(item);
+      this.$refs.editor.edit();
+    },
     remove_item(item) {
       this.recoveryItem = item;
       this.$store.dispatch("removeTodo", item);
@@ -174,7 +178,7 @@ export default {
       this.completeDialog = false;
     },
     recovery_item() {
-      console.log(this.recoveryItem);
+      this.itemRemoved = false;
       this.$store.dispatch("addTodo", this.recoveryItem);
     },
   },

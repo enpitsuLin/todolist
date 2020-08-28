@@ -114,29 +114,47 @@ export default {
       tagItems: ["计划", "工作", "娱乐", "生活"],
       inputRules: [
         (value) => !!value || "必填",
-        (value) => (value && value.length >= 3) || "至少三个字符",
+        (value) => (value && value.length >= 2) || "至少两个字符",
       ],
       menu: false,
       loading: false,
       editing: false,
       search: null,
+      oldItem: {},
     };
   },
-  computed: {},
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
         this.loading = true;
-        this.add_item();
+        if (this.editing) {
+          console.log("submit()", this.oldItem, this.item);
+          this.modifyItem();
+        } else {
+          this.addItem();
+        }
       } else {
         alert("请检查输入");
       }
     },
-    add_item() {
+    modifyItem() {
+      const item = this.item;
+      console.log("modifyItem()", this.oldItem, this.item);
+      this.$store
+        .dispatch("modifyTodo", this.oldItem, this.item)
+        .then((res) => {
+          this.dialog = false;
+          this.loading = false;
+          this.editing = false;
+          this.$emit("itemAdded");
+          this.$refs.form.reset();
+        });
+    },
+    addItem() {
       const item = {
         title: this.item.title,
         content: this.item.content,
-        due: this.item.due || "无",
+        due: this.item.due,
         status: this.item.status || "ongoing",
         tags: this.item.tags,
       };
@@ -151,13 +169,26 @@ export default {
       this.item.tags.splice(this.item.tags.indexOf(tag), 1);
       this.item.tags = [...this.item.tags];
     },
+    edit() {
+      this.editing = true;
+      this.dialog = true;
+
+      this.oldItem = JSON.parse(this.item);
+      this.item = JSON.parse(this.item);
+    },
   },
+
   watch: {
     "item.tags"(val) {
-      console.log();
-      if (val.length > 3) {
+      if (val && val.length > 3) {
         this.$nextTick(() => this.item.tags.pop());
       }
+    },
+    oldItem(val) {
+      console.log("olditem", val);
+    },
+    item(val) {
+      console.log("item", val);
     },
   },
 };
