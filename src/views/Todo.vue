@@ -4,7 +4,7 @@
     <Snackbar ref="snackbar" @handleUndo="recovery_item()" />
     <!-- 主体 -->
     <h1 class="text-subtitle-1 grey--text">Todolist</h1>
-    <v-container class="my-10 pa-6">
+    <v-container class="my-8 pa-6">
       <!-- 排序 -->
       <v-row class="mb-4 mx-2">
         <v-tooltip top>
@@ -109,7 +109,7 @@
       </v-card>
     </v-dialog>
 
-    <!-- 浮动按钮 -->
+    <!-- 项目对话框 -->
     <ProjectEditor
       @itemAdded="showSuccess('add')"
       @itemModifyed="showSuccess('modify')"
@@ -186,7 +186,7 @@ export default {
   computed: {
     ...mapGetters(["getTodoList"]),
     sortedItemList() {
-      return this.todoList.filter((item) => {
+      return this.todoList.filter((item, index) => {
         return (
           (this.filter != "") & (item.status == this.filter) ||
           this.filter == ""
