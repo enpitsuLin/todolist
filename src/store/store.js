@@ -23,23 +23,24 @@ export default new Vuex.Store({
       state.todoList.push(item);
       Utils.setItem("todoList", state.todoList);
     },
-    MODIFY_ITEM(state, item, mitem) {
-      console.log(item, mitem);
-      state.todoList.forEach((todo, i) => {
-        if (todo && item && mitem && todo.id === item.id) {
-          state.todoList[i] = mitem;
+    MODIFY_ITEM(state, item) {
+      var list = state.todoList.concat();
+      list.forEach((todo, i) => {
+        if (todo && item && todo.id === item.id) {
+          list[i] = item;
         }
       });
+      state.todoList = list;
       Utils.setItem("todoList", state.todoList);
     },
-    REMOVE_ITEM(state, item) {
+    REMOVE_ITEM(state, id) {
       //取巧 且不会引起某些bug
-      state.todoList = state.todoList.filter(todo => todo.id != item.id);
+      state.todoList = state.todoList.filter(todo => todo.id != id);
       Utils.setItem("todoList", state.todoList);
     },
-    COMPLETED_ITEM(state, item) {
+    COMPLETED_ITEM(state, id) {
       state.todoList.forEach((todo, i) => {
-        if (todo && item && todo.id === item.id) {
+        if (todo && id && todo.id === id) {
           state.todoList[i].status = "complete";
         }
       });
@@ -49,7 +50,7 @@ export default new Vuex.Store({
   actions: {
     addTodo({ commit }, item) { commit('ADD_ITEM', item) },
     removeTodo({ commit }, item) { commit('REMOVE_ITEM', item) },
-    modifyTodo({ commit }, item, mitem) { commit('MODIFY_ITEM', item, mitem) },
+    modifyTodo({ commit }, item) { commit('MODIFY_ITEM', item) },
     completedTodo({ commit }, item) { commit('COMPLETED_ITEM', item) }
   },
 });

@@ -120,7 +120,6 @@ export default {
       loading: false,
       editing: false,
       search: null,
-      oldItem: {},
     };
   },
   methods: {
@@ -128,7 +127,6 @@ export default {
       if (this.$refs.form.validate()) {
         this.loading = true;
         if (this.editing) {
-          console.log("submit()", this.oldItem, this.item);
           this.modifyItem();
         } else {
           this.addItem();
@@ -138,17 +136,21 @@ export default {
       }
     },
     modifyItem() {
-      const item = this.item;
-      console.log("modifyItem()", this.oldItem, this.item);
-      this.$store
-        .dispatch("modifyTodo", this.oldItem, this.item)
-        .then((res) => {
-          this.dialog = false;
-          this.loading = false;
-          this.editing = false;
-          this.$emit("itemAdded");
-          this.$refs.form.reset();
-        });
+      const item = {
+        title: this.item.title,
+        content: this.item.content,
+        due: this.item.due,
+        status: this.item.status,
+        tags: this.item.tags,
+        id: this.item.id,
+      };
+      this.$store.dispatch("modifyTodo", item).then((res) => {
+        this.dialog = false;
+        this.loading = false;
+        this.editing = false;
+        this.$emit("itemAdded");
+        this.$refs.form.reset();
+      });
     },
     addItem() {
       const item = {
@@ -169,12 +171,10 @@ export default {
       this.item.tags.splice(this.item.tags.indexOf(tag), 1);
       this.item.tags = [...this.item.tags];
     },
-    edit() {
+    setEdit(item) {
+      this.item = item;
       this.editing = true;
       this.dialog = true;
-
-      this.oldItem = JSON.parse(this.item);
-      this.item = JSON.parse(this.item);
     },
   },
 
@@ -183,12 +183,6 @@ export default {
       if (val && val.length > 3) {
         this.$nextTick(() => this.item.tags.pop());
       }
-    },
-    oldItem(val) {
-      console.log("olditem", val);
-    },
-    item(val) {
-      console.log("item", val);
     },
   },
 };

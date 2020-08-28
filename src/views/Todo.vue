@@ -165,16 +165,15 @@ export default {
       }
     },
     edit_item(item) {
-      this.$refs.editor.item = JSON.stringify(item);
-      this.$refs.editor.edit();
+      this.$refs.editor.setEdit(JSON.parse(JSON.stringify(item)));
     },
     remove_item(item) {
       this.recoveryItem = item;
-      this.$store.dispatch("removeTodo", item);
+      this.$store.dispatch("removeTodo", item.id);
     },
     complete_item() {
       const item = this.selectItem;
-      this.$store.dispatch("completedTodo", item);
+      this.$store.dispatch("completedTodo", item.id);
       this.completeDialog = false;
     },
     recovery_item() {
@@ -190,6 +189,7 @@ export default {
       handler: function (li) {
         let vm = this;
         this.todoList = li;
+        console.log("change", li);
       },
       deep: true,
     },
