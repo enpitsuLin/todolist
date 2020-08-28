@@ -66,14 +66,15 @@
             <div v-show="expand.indexOf(index)!=-1">
               <v-row no-gutters>
                 <v-col offset="1">
-                  <v-card-text class="pt-2 pb-1 caption">状态:</v-card-text>
+                  <v-card-text class="pt-2 pb-1 caption">
+                    <span>状态:</span>
+                    <v-chip
+                      small
+                      :class="`${item.status} white--text caption ml-6`"
+                    >{{item.status!='complete'? '进行中':'已完成'}}</v-chip>
+                  </v-card-text>
                 </v-col>
-                <v-col offset="-1">
-                  <v-chip
-                    small
-                    :class="`${item.status} white--text caption mx-3 mt-1`"
-                  >{{item.status!='complete'? '进行中':'已完成'}}</v-chip>
-                </v-col>
+
                 <v-spacer></v-spacer>
                 <v-btn-toggle dense borderless class="px-2">
                   <v-btn
