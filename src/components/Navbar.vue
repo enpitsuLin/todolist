@@ -37,7 +37,7 @@
           <p class="white--text subheading mt-1">enpitsulin</p>-->
           <v-list-item dark>
             <v-list-item-content>
-              <v-list-item-title class="title">Todo.list</v-list-item-title>
+              <v-list-item-title class="title">Todo.tech</v-list-item-title>
               <v-list-item-subtitle>by enpitsulin</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>

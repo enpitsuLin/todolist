@@ -7,7 +7,7 @@
     </template>
     <v-card>
       <v-card-title>
-        <h2>{{editing?'修改':'添加项目'}}</h2>
+        <h2>{{editing?'修改':'添加事项'}}</h2>
       </v-card-title>
 
       <v-card-text>
@@ -18,6 +18,14 @@
             prepend-icon="mdi-folder"
             :rules="inputRules"
           ></v-text-field>
+          <v-textarea
+            no-resize
+            hide-details="auto"
+            label="详情"
+            v-model="item.content"
+            prepend-icon="mdi-pencil"
+            :rules="inputRules"
+          ></v-textarea>
 
           <v-menu
             max-width="290"
@@ -44,6 +52,39 @@
             </v-date-picker>
           </v-menu>
 
+          <v-combobox
+            v-model="item.tags"
+            :items="tagItems"
+            :search-input.sync="search"
+            hide-selected
+            hint="最多3个标签"
+            label="标签"
+            multiple
+            prepend-icon="mdi-bookmark"
+            persistent-hint
+            small-chips
+          >
+            <template v-slot:selection="{ attrs, item, select, selected }">
+              <v-chip
+                v-bind="attrs"
+                :input-value="selected"
+                close
+                @click="select"
+                @click:close="remove(item)"
+              >{{ item }}</v-chip>
+            </template>
+            <template v-slot:no-data>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
+                    没有"
+                    <strong>{{ search }}</strong>"的标签. 按
+                    <kbd>enter</kbd> 来创建一个
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+          </v-combobox>
           <v-col>
             <v-btn
               color="primary"
@@ -62,8 +103,9 @@
 export default {
   data() {
     return {
-      item: { title: "", due: "", status: "", items: [] },
+      item: { title: "", content: "", due: "", status: "", tags: [] },
       dialog: false,
+      tagItems: ["计划", "工作", "娱乐", "生活"],
       inputRules: [
         (value) => !!value || "必填",
         (value) => (value && value.length >= 2) || "至少两个字符",
@@ -71,6 +113,7 @@ export default {
       menu: false,
       loading: false,
       editing: false,
+      search: null,
     };
   },
   methods: {
@@ -88,12 +131,14 @@ export default {
     },
     modifyItem() {
       const item = {
-        id: this.item.id,
         title: this.item.title,
+        content: this.item.content,
         due: this.item.due,
-        items: this.item.items,
+        status: this.item.status,
+        tags: this.item.tags,
+        id: this.item.id,
       };
-      this.$store.dispatch("modifyProject", item).then((res) => {
+      this.$store.dispatch("modifyTodo", item).then((res) => {
         this.dialog = false;
         this.loading = false;
         this.editing = false;
@@ -104,10 +149,12 @@ export default {
     addItem() {
       const item = {
         title: this.item.title,
+        content: this.item.content,
         due: this.item.due,
-        items: this.item.items,
+        status: this.item.status || "ongoing",
+        tags: this.item.tags,
       };
-      this.$store.dispatch("addProject", item).then((res) => {
+      this.$store.dispatch("addTodo", item).then((res) => {
         this.dialog = false;
         this.loading = false;
         this.$emit("itemAdded");

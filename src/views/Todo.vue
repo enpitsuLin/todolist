@@ -95,10 +95,10 @@
               <v-row no-gutters>
                 <v-col cols="7" md="3" offset-md="1" sm="3" offset-sm="1">
                   <v-card-text class="pt-2 pb-1 caption">
-                    <span>状态:</span>
+                    <span class="pr-3">状态:</span>
                     <v-chip
                       small
-                      :class="`${item.status} white--text caption ml-6`"
+                      :class="`${item.status} white--text caption`"
                     >{{item.status!='complete'? '进行中':'已完成'}}</v-chip>
                   </v-card-text>
                 </v-col>
@@ -144,9 +144,9 @@
     </v-dialog>
 
     <!-- 项目对话框 -->
-    <ProjectEditor
-      @itemAdded="showSuccess('add')"
-      @itemModifyed="showSuccess('modify')"
+    <ItemEditor
+      @itemAdded="show_success('add')"
+      @itemModifyed="show_success('modify')"
       ref="editor"
     />
   </div>
@@ -155,7 +155,7 @@
 <script>
 import * as Utils from "../utils/utils";
 import { mapGetters } from "vuex";
-import ProjectEditor from "../components/ProjectEditor.vue";
+import ItemEditor from "../components/ItemEditor.vue";
 import Snackbar from "../components/Snackbar.vue";
 
 export default {
@@ -171,7 +171,7 @@ export default {
     };
   },
   components: {
-    ProjectEditor,
+    ItemEditor,
     Snackbar,
   },
   methods: {
@@ -201,7 +201,7 @@ export default {
     },
     remove_item(item) {
       this.recoveryItem = item;
-      this.showDelete(item);
+      this.show_delete(item);
       this.$store.dispatch("removeTodo", item.id);
     },
     complete_item() {
@@ -212,12 +212,12 @@ export default {
     recovery_item() {
       this.$store.dispatch("addTodo", this.recoveryItem);
     },
-    showSuccess(type) {
+    show_success(type) {
       let msg =
         type === "add" ? "漂亮！你成功添加了一个新项目" : "OK!修改成功!";
       this.$refs.snackbar.show(msg);
     },
-    showDelete(item) {
+    show_delete(item) {
       let msg = `你删除了项目:${item.title}`;
       this.$refs.snackbar.showError(msg);
     },
