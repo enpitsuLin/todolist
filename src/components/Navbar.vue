@@ -15,13 +15,15 @@
             <v-icon left>mdi-chevron-down</v-icon>菜单
           </v-btn>
         </template>
-        <v-list-item v-for="link in links" :key="link.text" :to="link.route">
-          <v-list-item-title>{{ link.text }}</v-list-item-title>
-        </v-list-item>
+        <v-list>
+          <v-list-item v-for="link in links" :key="link.text" :to="link.route">
+            <v-list-item-title>{{ link.text }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
       </v-menu>
 
       <v-btn text color="grey">
-        <span>关闭</span>
+        <span>退出</span>
         <v-icon right>mdi-exit-to-app</v-icon>
       </v-btn>
     </v-app-bar>
@@ -29,12 +31,16 @@
     <v-navigation-drawer app color="secondary" width="300" v-model="drawer">
       <template v-slot:prepend>
         <v-col align="center" class="pt-12">
-          <v-avatar color="white" size="100">
-            <img
-              src="../assets/images/avatar-1.png"
-            />
+          <!-- <v-avatar color="white" size="100">
+            <img src="../assets/images/avatar-1.png" />
           </v-avatar>
-          <p class="white--text subheading mt-1">enpitsulin</p>
+          <p class="white--text subheading mt-1">enpitsulin</p>-->
+          <v-list-item dark>
+            <v-list-item-content>
+              <v-list-item-title class="title">Todo.list</v-list-item-title>
+              <v-list-item-subtitle>by enpitsulin</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
         </v-col>
       </template>
       <v-divider></v-divider>
@@ -48,6 +54,17 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <template v-slot:append>
+        <v-col align="center" class="pt-12">
+          <v-btn text dark>
+            <v-icon left>mdi-cog-outline</v-icon>设置
+          </v-btn>
+          <v-btn text dark>
+            退出
+            <v-icon right>mdi-exit-to-app</v-icon>
+          </v-btn>
+        </v-col>
+      </template>
     </v-navigation-drawer>
   </nav>
 </template>
@@ -57,7 +74,7 @@ export default {
   components: {},
   data() {
     return {
-      drawer: true,
+      drawer: null,
       links: [
         { icon: "mdi-view-dashboard", text: "代办事项", route: "/" },
         { icon: "mdi-folder", text: "项目", route: "/projects" },

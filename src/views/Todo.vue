@@ -9,7 +9,14 @@
       <v-row class="mb-4 mx-2">
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn small text color="grey" @click="sort_by('')" v-bind="attrs" v-on="on">
+            <v-btn
+              small
+              text
+              color="grey"
+              @click="sort_by('');sort_tag('')"
+              v-bind="attrs"
+              v-on="on"
+            >
               <v-icon left small>mdi-folder</v-icon>全部
             </v-btn>
           </template>
@@ -18,7 +25,14 @@
 
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn small text color="grey" @click="sort_by('complete')" v-bind="attrs" v-on="on">
+            <v-btn
+              small
+              text
+              color="grey"
+              @click="sort_by('complete');sort_tag('')"
+              v-bind="attrs"
+              v-on="on"
+            >
               <v-icon left small>mdi-check-all</v-icon>已完成
             </v-btn>
           </template>
@@ -27,7 +41,14 @@
 
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn small text color="grey" @click="sort_by('ongoing')" v-bind="attrs" v-on="on">
+            <v-btn
+              small
+              text
+              color="grey"
+              @click="sort_by('ongoing');sort_tag('')"
+              v-bind="attrs"
+              v-on="on"
+            >
               <v-icon left small>mdi-close</v-icon>未完成
             </v-btn>
           </template>
@@ -53,7 +74,12 @@
             <v-col cols="5" sm="4" md="2">
               <div class="text-caption grey--text">标签</div>
               <div>
-                <v-chip x-small v-for="(tag,i) in item.tags" :key="i">{{tag}}</v-chip>
+                <v-chip x-small v-for="(tag,i) in item.tags" :key="i" @click.stop="sort_tag(tag)">
+                  <span>{{tag}}</span>
+                </v-chip>
+                <v-chip x-small v-if="item.tags.length==0" @click.stop="sort_tag('')">
+                  <span>无</span>
+                </v-chip>
               </div>
             </v-col>
             <v-spacer class="d-none d-sm-flex"></v-spacer>
@@ -136,6 +162,7 @@ export default {
   data() {
     return {
       filter: "",
+      filterTag: "",
       expand: [],
       todoList: [],
       completeDialog: false,
@@ -156,6 +183,10 @@ export default {
     },
     sort_by(filter) {
       this.filter = filter;
+    },
+    sort_tag(tag) {
+      this.filterTag = tag;
+      console.log(tag);
     },
     expand_handle(index) {
       var si = this.expand.indexOf(index);
@@ -196,8 +227,9 @@ export default {
     sortedItemList() {
       return this.todoList.filter((item, index) => {
         return (
-          (this.filter != "") & (item.status == this.filter) ||
-          this.filter == ""
+          (this.filter == "" && this.filterTag == "") ||
+          (this.filter != "" && item.status == this.filter) ||
+          (this.filterTag != "" && item.tags.includes(this.filterTag))
         );
       });
     },

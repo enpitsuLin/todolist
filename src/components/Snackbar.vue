@@ -1,5 +1,10 @@
 <template>
-  <v-snackbar v-model="snackbar" :timeout="undo?4000:2500" top :color="undo?'error':'success'">
+  <v-snackbar
+    v-model="snackbar"
+    :timeout="undo?4000:2500"
+    top
+    :color="undo?'error':'success'"
+  >
     <span>{{msg}}</span>
     <template v-slot:action="{ attrs }">
       <v-btn dark icon v-bind="attrs" @click="handleUndo" v-if="undo">
