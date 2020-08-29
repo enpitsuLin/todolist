@@ -1,7 +1,7 @@
 <template>
   <v-dialog max-width="580px" v-model="dialog">
     <template v-slot:activator="{ on }">
-      <v-btn color="blue darken-2" v-on="on" dark bottom right fixed fab ripple>
+      <v-btn color="blue darken-2" v-on="on" @click="setAdd" dark bottom right fixed fab ripple>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </template>
@@ -74,6 +74,10 @@ export default {
     };
   },
   methods: {
+    setAdd() {
+      (this.item = { title: "", due: "", status: "", items: [] }),
+        (this.editing = false);
+    },
     submit() {
       if (this.$refs.form.validate()) {
         this.loading = true;
