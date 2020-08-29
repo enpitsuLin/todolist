@@ -1,22 +1,22 @@
 <template>
   <div class="projects">
     <h1 class="text-subtitle-1 grey--text">About</h1>
-    <v-container class="my-8 pa-6">
-      <v-row wrap>
-        <v-col sm="6" md="4" lg="3">
+    <v-container class="my-2 pa-1 my-md-8 pa-md-6">
+      <v-row no-gutters>
+        <v-col cols="12" sm="6" md="4" lg="3">
           <v-card flat class="text-sm-center ma-3" height="240">
-            <v-responsive class="pt-4">
+            <v-responsive class="pt-4 text-center">
               <v-avatar size="100" class="grey lighten-2">
-                <img
-                  src="../assets/images/avatar-1.png"
-                />
+                <img src="../assets/images/avatar-1.png" />
               </v-avatar>
             </v-responsive>
-            <v-card-text>
+
+            <v-card-text class="text-center">
               <div class="subheading">EnpitsuLin</div>
               <div class="grey--text">22岁 是学生desu</div>
             </v-card-text>
-            <v-card-actions>
+
+            <v-card-actions class="mx-auto">
               <v-btn text color="grey">
                 <v-icon small left>mdi-email</v-icon>
                 <span>Email</span>

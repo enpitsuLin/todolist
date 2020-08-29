@@ -4,7 +4,7 @@
     <Snackbar ref="snackbar" @handleUndo="recovery_item()" />
     <!-- 主体 -->
     <h1 class="text-subtitle-1 grey--text">Todolist</h1>
-    <v-container class="my-8 pa-6">
+    <v-container class="my-2 pa-1 my-md-8 pa-md-6">
       <!-- 排序 -->
       <v-row class="mb-4 mx-2">
         <v-tooltip top>
@@ -36,9 +36,9 @@
       </v-row>
       <!-- 数据 -->
       <v-hover v-slot:default="{ hover }" v-for="(item,index) in sortedItemList" :key="item.id">
-        <v-card flat>
+        <v-card @click="expand_handle(index)" :ripple="false" flat>
           <v-row no-gutters :class="`${item.status} pa-3 item`">
-            <v-col cols="3" sm="3" md="2">
+            <v-col cols="4" sm="3" md="2">
               <div class="text-caption grey--text">事项名称</div>
               <div>{{ item.title }}</div>
             </v-col>
@@ -50,15 +50,15 @@
               <div class="text-caption grey--text">截止日期</div>
               <div>{{ item.due }}</div>
             </v-col>
-            <v-col cols="4" sm="4" md="2">
+            <v-col cols="5" sm="4" md="2">
               <div class="text-caption grey--text">标签</div>
               <div>
                 <v-chip x-small v-for="(tag,i) in item.tags" :key="i">{{tag}}</v-chip>
               </div>
             </v-col>
-            <v-spacer></v-spacer>
+            <v-spacer class="d-none d-sm-flex"></v-spacer>
             <v-col align-self="center">
-              <v-btn icon @click="expand_handle(index)" v-if="hover" class="mt-1">
+              <v-btn icon v-if="hover" class="mt-1 d-none d-sm-block">
                 <v-icon>{{ expand.indexOf(index)!=-1 ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
               </v-btn>
             </v-col>
@@ -67,7 +67,7 @@
           <v-expand-transition>
             <div v-show="expand.indexOf(index)!=-1">
               <v-row no-gutters>
-                <v-col offset="1">
+                <v-col cols="7" md="3" offset-md="1" sm="3" offset-sm="1">
                   <v-card-text class="pt-2 pb-1 caption">
                     <span>状态:</span>
                     <v-chip
@@ -78,21 +78,26 @@
                 </v-col>
 
                 <v-spacer></v-spacer>
-                <v-btn-toggle dense borderless class="px-2">
+
+                <div class="px-2">
                   <v-btn
+                    dense
                     text
                     v-show="item.status!='complete'"
                     @click.stop="completeDialog = true;selectItem=item"
                   >
-                    <v-icon>mdi-check</v-icon>完成
+                    <v-icon>mdi-check</v-icon>
+                    <span class="d-none d-sm-flex">完成</span>
                   </v-btn>
-                  <v-btn text @click.stop="edit_item(item)">
-                    <v-icon>mdi-pencil</v-icon>修改
+                  <v-btn dense text @click.stop="edit_item(item)">
+                    <v-icon>mdi-pencil</v-icon>
+                    <span class="d-none d-sm-flex">修改</span>
                   </v-btn>
-                  <v-btn text color="red" @click.stop="remove_item(item);">
-                    <v-icon>mdi-delete</v-icon>删除
+                  <v-btn dense text color="red" @click.stop="remove_item(item);">
+                    <v-icon>mdi-delete</v-icon>
+                    <span class="d-none d-sm-flex">删除</span>
                   </v-btn>
-                </v-btn-toggle>
+                </div>
               </v-row>
             </div>
           </v-expand-transition>

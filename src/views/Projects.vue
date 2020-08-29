@@ -1,7 +1,7 @@
 <template>
   <div class="projects">
     <h1 class="text-subtitle-1 grey--text">Projects</h1>
-    <v-container class="my-8 pa-6"></v-container>
+    <v-container class="my-2 pa-1 my-md-8 pa-md-6"></v-container>
   </div>
 </template>
 
