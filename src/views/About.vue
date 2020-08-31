@@ -18,13 +18,12 @@
 
             <v-card-actions>
               <div class="mx-auto px-0">
-                <v-btn outlined text color="grey">
-                  <v-icon small left>mdi-email</v-icon>
-                  <span>Email</span>
-                </v-btn>
-                <v-btn outlined text color="grey">
+                <v-btn outlined text color="grey" href="https://github.com/enpitsulin" target="_blank">
                   <v-icon small>mdi-github</v-icon>
                   <span>Github</span>
+                </v-btn>
+                <v-btn outlined text color="grey" href="https://gitee.com/enpitsulin" target="_blank">
+                  <span>Gitee</span>
                 </v-btn>
               </div>
             </v-card-actions>
@@ -44,7 +43,7 @@
               <div class="mx-auto mx-sm-0">
                 <v-btn text color="grey">
                   <v-icon small left>mdi-arrow-right</v-icon>
-                  <span>点击了解更多菜鸡作品</span>
+                  <span>访问git主页了解更多菜鸡作品</span>
                 </v-btn>
               </div>
             </v-card-actions>
