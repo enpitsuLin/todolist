@@ -74,11 +74,17 @@
             <v-col cols="5" sm="4" md="2">
               <div class="text-caption grey--text">标签</div>
               <div>
-                <v-chip x-small v-for="(tag,i) in item.tags" :key="i" @click.stop="sort_tag(tag)">
-                  <span>{{tag}}</span>
-                </v-chip>
-                <v-chip x-small v-if="item.tags.length==0" @click.stop="sort_tag('')">
+                <v-chip x-small v-if="item.tags&&item.tags.length==0" @click.stop="sort_tag('')">
                   <span>无</span>
+                </v-chip>
+                <v-chip
+                  x-small
+                  v-else
+                  v-for="(tag,i) in item.tags"
+                  :key="i"
+                  @click.stop="sort_tag(tag)"
+                >
+                  <span>{{tag}}</span>
                 </v-chip>
               </div>
             </v-col>

@@ -66,10 +66,7 @@
           <v-icon>mdi-pencil</v-icon>
           <span>编辑</span>
         </v-btn>
-        <v-btn text>
-          <v-icon>mdi-plus</v-icon>
-          <span>增加步骤</span>
-        </v-btn>
+        <ProjectItemEdit :id="project.id" />
         <v-btn text color="red" @click="remove_project()">
           <v-icon>mdi-delete</v-icon>
           <span>删除</span>
@@ -80,10 +77,21 @@
 </template>
 
 <script>
+import ProjectItemEdit from "./ProjectItemEditor.vue";
+
 export default {
+  props: {
+    project: {
+      type: Object,
+      default: function () {
+        return { id: null, title: "", due: "", items: [] };
+      },
+    },
+  },
   data() {
     return { step: 0 };
   },
+  components: { ProjectItemEdit },
   computed: {
     process() {
       return (this.step / this.project.items.length) * 100;
@@ -95,14 +103,6 @@ export default {
     },
     edit_project() {
       this.$emit("ProjectEdit", this.project);
-    },
-  },
-  props: {
-    project: {
-      type: Object,
-      default: function () {
-        return { id: null, title: "", due: "", items: [] };
-      },
     },
   },
 };

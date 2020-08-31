@@ -76,11 +76,12 @@ export default new Vuex.Store({
       state.projects = state.projects.filter(project => project.id != id);
       Utils.setItem("projects", state.projects);
     },
-    ADD_PROJECT_ITEM(state, id, item) {
+    ADD_PROJECT_ITEM(state, { id, item }) {
       var projects = state.projects.concat();
       projects.forEach(project => {
         if (id && project && id === project.id) {
-          project.item.push(item);
+
+          project.items.push(item);
         }
       });
       state.projects = projects;
@@ -96,6 +97,6 @@ export default new Vuex.Store({
     addProject({ commit }, project) { commit('ADD_PROJECT', project) },
     removeProject({ commit }, id) { commit('REMOVE_PROJECT', id) },
     modifyProject({ commit }, project) { commit('MODIFY_PROJECT', project) },
-    addProjectItem({ commit }, id, item) { commit(" ADD_PROJECT_ITEM", id, item) }
+    addProjectItem({ commit }, { id, item }) { commit("ADD_PROJECT_ITEM", { id, item }) }
   },
 });

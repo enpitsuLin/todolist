@@ -49,6 +49,9 @@ export default {
     edit_project(project) {
       this.$refs.editor.setEdit(JSON.parse(JSON.stringify(project)));
     },
+    add_project_item(id, item) {
+      this.$store.dispatch("addProjectItem", id, item);
+    },
     hanlder_delete(project) {
       this.$store.dispatch("removeProject", project.id);
       this.recoveryProject = project;
