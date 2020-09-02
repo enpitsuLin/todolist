@@ -18,7 +18,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    /* TODO */
+    /**
+     * 添加待办事项
+     */
     ADD_ITEM(state, item) {
       var num = "";
       for (var i = 0; i < 16; i++) {
@@ -28,6 +30,9 @@ export default new Vuex.Store({
       state.todoList.push(item);
       Utils.setItem("todoList", state.todoList);
     },
+    /**
+    * 修改待办事项
+    */
     MODIFY_ITEM(state, item) {
       var list = state.todoList.concat();
       list.forEach((todo, i) => {
@@ -38,11 +43,16 @@ export default new Vuex.Store({
       state.todoList = list;
       Utils.setItem("todoList", state.todoList);
     },
+    /**
+     * 删除待办事项
+     */
     REMOVE_ITEM(state, id) {
-      //取巧 且不会引起某些bug
       state.todoList = state.todoList.filter(todo => todo.id != id);
       Utils.setItem("todoList", state.todoList);
     },
+    /**
+     * 完成待办事项
+     */
     COMPLETED_ITEM(state, id) {
       state.todoList.forEach((todo, i) => {
         if (todo && id && todo.id === id) {
@@ -51,7 +61,9 @@ export default new Vuex.Store({
       });
       Utils.setItem("todoList", state.todoList);
     },
-    /* PROJECT */
+    /**
+     * 添加项目
+     */
     ADD_PROJECT(state, project) {
       var num = "";
       for (var i = 0; i < 16; i++) {
@@ -61,6 +73,9 @@ export default new Vuex.Store({
       state.projects.push(project);
       Utils.setItem("projects", state.projects);
     },
+    /**
+     * 修改项目
+     */
     MODIFY_PROJECT(state, project) {
       var list = state.projects.concat();
       list.forEach((item, i) => {
@@ -71,11 +86,16 @@ export default new Vuex.Store({
       state.projects = list;
       Utils.setItem("projects", state.projects);
     },
+    /**
+     * 删除项目
+     */
     REMOVE_PROJECT(state, id) {
-      //取巧 且不会引起某些bug
       state.projects = state.projects.filter(project => project.id != id);
       Utils.setItem("projects", state.projects);
     },
+    /**
+     * 添加项目步骤
+     */
     ADD_PROJECT_ITEM(state, { id, item }) {
       var projects = state.projects.concat();
       projects.forEach(project => {

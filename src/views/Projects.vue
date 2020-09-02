@@ -4,7 +4,7 @@
     <Snackbar ref="snackbar" @handleUndo="recovery_item()" />
     <h1 class="text-subtitle-1 grey--text">Projects</h1>
     <v-container class="my-2 pa-1 my-md-8 pa-md-6">
-      <v-expansion-panels>
+      <v-expansion-panels flat>
         <ProjectItem
           v-for="project in projects"
           :key="project.id"

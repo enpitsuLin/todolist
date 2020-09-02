@@ -8,7 +8,7 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <!-- bar item -->
+
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn text v-on="on" color="grey">
@@ -31,10 +31,6 @@
     <v-navigation-drawer app color="secondary" width="300" v-model="drawer">
       <template v-slot:prepend>
         <v-col align="center" class="pt-12">
-          <!-- <v-avatar color="white" size="100">
-            <img src="../assets/images/avatar-1.png" />
-          </v-avatar>
-          <p class="white--text subheading mt-1">enpitsulin</p>-->
           <v-list-item dark>
             <v-list-item-content>
               <v-list-item-title class="title">Todo.tech</v-list-item-title>
@@ -44,7 +40,7 @@
         </v-col>
       </template>
       <v-divider></v-divider>
-      <v-list dense>
+      <v-list>
         <v-list-item v-for="(link, index) in links" :key="index" :to="link.route">
           <v-list-item-icon>
             <v-icon class="white--text">{{ link.icon }}</v-icon>
@@ -57,10 +53,11 @@
       <template v-slot:append>
         <v-col align="center" class="pt-12">
           <v-btn text dark>
-            <v-icon left>mdi-cog-outline</v-icon>设置
+            <v-icon left>mdi-cog-outline</v-icon>
+            <span>设置</span>
           </v-btn>
           <v-btn text dark>
-            退出
+            <span>退出</span>
             <v-icon right>mdi-exit-to-app</v-icon>
           </v-btn>
         </v-col>
@@ -76,9 +73,8 @@ export default {
     return {
       drawer: null,
       links: [
-        { icon: "mdi-view-dashboard", text: "代办事项", route: "/" },
+        { icon: "mdi-view-dashboard", text: "任务", route: "/" },
         { icon: "mdi-folder", text: "项目", route: "/projects" },
-        //{ icon: "mdi-person", text: "小组", route: "/team" },
         { icon: "mdi-information", text: "关于", route: "/about" },
       ],
     };
