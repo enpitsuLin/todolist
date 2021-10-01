@@ -69,7 +69,7 @@ export default {
 		return {
 			drawer: null,
 			links: [
-				{ icon: "mdi-view-dashboard", text: "任务", route: "/" },
+				{ icon: "mdi-view-dashboard", text: "任务", route: "/todo" },
 				{ icon: "mdi-folder", text: "项目", route: "/projects" },
 				{ icon: "mdi-information", text: "关于", route: "/about" }
 			]

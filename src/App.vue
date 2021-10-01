@@ -1,23 +1,12 @@
 <template>
 	<v-app id="inspire">
-		<navbar />
-		<v-main class="grey lighten-4">
-			<router-view class="mx-4 mb-4"></router-view>
-		</v-main>
+		<router-view></router-view>
 	</v-app>
 </template>
 
 <script>
-import navbar from "./components/Navbar.vue";
-
 export default {
-	data() {
-		return {};
-	},
-	components: {
-		navbar
-	},
-	methods: {}
+	name: "App"
 };
 </script>
 <style></style>
