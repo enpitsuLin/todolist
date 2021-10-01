@@ -1,5 +1,6 @@
 <template>
 	<v-dialog max-width="580px" v-model="dialog">
+		<Snackbar ref="snackbar" />
 		<template v-slot:activator="{ on }">
 			<v-btn color="blue darken-2" @click="setAdd" v-on="on" dark bottom right fixed fab ripple>
 				<v-icon>mdi-plus</v-icon>
@@ -93,7 +94,10 @@
 </template>
 
 <script>
+import Snackbar from "../components/Snackbar.vue";
 export default {
+	name: "ItemEditor",
+	components: { Snackbar },
 	data() {
 		return {
 			item: { title: "", content: "", due: "", status: "", tags: [] },
@@ -120,7 +124,7 @@ export default {
 					this.addItem();
 				}
 			} else {
-				alert("请检查输入");
+				this.$refs.snackbar.show("请检查输入");
 			}
 		},
 		modifyItem() {
