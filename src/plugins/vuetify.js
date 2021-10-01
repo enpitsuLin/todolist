@@ -1,13 +1,13 @@
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
+import Vue from "vue";
+import Vuetify from "vuetify";
+import "vuetify/dist/vuetify.min.css";
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 
 const opts = {
-    theme: {
-        //dark: true,
-    },
-}
+	theme: {
+		//dark: true,
+	}
+};
 
-export default new Vuetify(opts)
+export default new Vuetify(opts);
