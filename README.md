@@ -14,18 +14,18 @@ npm run build
 
 ## 预览
 
-![待办](./pic-0.png)
+![待办](./doc/pic-0.png)
 
-![项目](./pic-1.png)
+![项目](./doc/pic-1.png)
 
-![关于](./pic-2.png)
+![关于](./doc/pic-2.png)
 
 自带响应式布局
 
 ### 移动端预览:
 
-![待办](./pic-3.png)
+![待办](./doc/pic-3.png)
 
-![项目](./pic-4.png)
+![项目](./doc/pic-4.png)
 
-![关于](./pic-5.png)
+![关于](./doc/pic-5.png)
