@@ -60,7 +60,7 @@
 				</v-timeline-item>
 			</v-timeline>
 			<v-divider></v-divider>
-			<v-row>
+			<v-row class="mt-2">
 				<v-spacer></v-spacer>
 				<v-btn text @click="edit_project()">
 					<v-icon>mdi-pencil</v-icon>
