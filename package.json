@@ -1,38 +1,39 @@
 {
-    "name": "vue-todo",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "webpack-dev-server",
-        "build": "webpack"
-    },
-    "keywords": [],
-    "author": "enpitsulin",
-    "license": "ISC",
-    "devDependencies": {
-        "clean-webpack-plugin": "^3.0.0",
-        "css-loader": "^4.3.0",
-        "deepmerge": "^4.2.2",
-        "fibers": "^5.0.0",
-        "file-loader": "^6.2.0",
-        "html-webpack-plugin": "^4.5.2",
-        "node-sass": "^4.14.1",
-        "sass": "^1.42.1",
-        "sass-loader": "^9.0.3",
-        "style-loader": "^1.3.0",
-        "url-loader": "^4.1.1",
-        "vue-loader": "^15.9.8",
-        "vue-template-compiler": "^2.6.14",
-        "webpack": "^4.46.0",
-        "webpack-cli": "^3.3.12",
-        "webpack-dev-server": "^3.11.2"
-    },
-    "dependencies": {
-        "vue": "^2.6.14",
-        "vue-router": "^3.5.2",
-        "vuetify": "^2.5.9",
-        "vuex": "^3.6.2"
-    }
+	"name": "vue-todo",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "webpack --config ./build/webpack.prod.js",
+		"start": "webpack serve --config ./build/webpack.dev.js --hot --open"
+	},
+	"keywords": [],
+	"author": "enpitsulin",
+	"license": "MIT",
+	"devDependencies": {
+		"@webpack-cli/serve": "^1.5.2",
+		"clean-webpack-plugin": "^3.0.0",
+		"css-loader": "^4.3.0",
+		"deepmerge": "^4.2.2",
+		"fibers": "^5.0.0",
+		"file-loader": "^6.2.0",
+		"html-webpack-plugin": "^4.5.2",
+		"node-sass": "^4.14.1",
+		"sass": "^1.42.1",
+		"sass-loader": "^9.0.3",
+		"style-loader": "^1.3.0",
+		"url-loader": "^4.1.1",
+		"vue-loader": "^15.9.8",
+		"vue-template-compiler": "^2.6.14",
+		"webpack": "^4.46.0",
+		"webpack-cli": "^4.8.0",
+		"webpack-dev-server": "^4.3.0",
+		"webpack-merge": "^5.8.0"
+	},
+	"dependencies": {
+		"vue": "^2.6.14",
+		"vue-router": "^3.5.2",
+		"vuetify": "^2.5.9",
+		"vuex": "^3.6.2"
+	}
 }
